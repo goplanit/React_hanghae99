@@ -16,7 +16,7 @@ const DicList = (props) => {
             <Font>설명</Font>
             <TextBox>{list.textExplain}</TextBox>
             <Font>예시</Font>
-            <TextBox>{list.textExam}</TextBox>
+            <BlueText>{list.textExam}</BlueText>
           </Card>
         );
       })}
@@ -64,6 +64,20 @@ const TextBox = styled.div`
   margin-left: 10px;
   box-sizing: border-box;
   word-break: break-all;
+`;
+
+const BlueText = styled.div`
+  width: 100vh;
+  max-width: 440px;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 10px;
+  box-sizing: border-box;
+  word-break: break-all;
+  color: blue;
+  font-weight: bold;
 `;
 
 const CircleButton = styled.button`
