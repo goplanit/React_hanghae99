@@ -9,16 +9,16 @@ import DicAddTemplate from "./components/DicAddTemplate";
 import NotFound from "./components/NotFound";
 import { firestore } from "./firebase";
 import { doc } from "prettier";
-import { dicFB } from "./store/module/DicContext.js";
+import { dicFB, addDicFB } from "./store/module/DicContext.js";
 
 const mapDispatchToProps = (dispatch) => ({
   load: () => {
     dispatch(dicFB());
   },
-  // create: (new_item) => {
-  //   console.log(new_item);
-  //   dispatch(createBucket(new_item));
-  // },
+  create: (dic_data) => {
+    console.log(dic_data);
+    dispatch(addDicFB(dic_data));
+  },
 });
 
 const GlobalStyle = createGlobalStyle`
@@ -114,8 +114,9 @@ class App extends React.Component {
   // });
 
   render() {
+    console.log(this.props.is_loaded);
     return (
-      <>
+      <React.Fragment>
         <GlobalStyle />
         <h1>MY DICTIONARY</h1>
         <DicTemplate>
@@ -126,7 +127,7 @@ class App extends React.Component {
             <Route component={NotFound} />
           </Switch>
         </DicTemplate>
-      </>
+      </React.Fragment>
     );
   }
 }

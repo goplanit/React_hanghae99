@@ -5,10 +5,12 @@ const dic_db = firestore.collection("dictionary1");
 // Actions
 const LOAD = "dic/LOAD";
 const CREATE = "dic/CREATE";
-const DELETE = "dic/DELETE";
-const UPDATE = "dic/UPDATE";
+const ISLOADED = "dic/ISLOADED";
+// const DELETE = "dic/DELETE";
+// const UPDATE = "dic/UPDATE";
 
 const initialState = {
+  is_loaded: false,
   list: [
     {
       id: "dic_1",
@@ -41,6 +43,10 @@ export const createDic = (create) => {
   return { type: CREATE, create };
 };
 
+export const isLoaded = (loaded) => {
+  return { type: ISLOADED, loaded };
+};
+
 // export const deleteDic = (del) => {
 //   return { type: DELETE, del };
 // };
@@ -55,11 +61,8 @@ export const dicFB = () => {
     dic_db.get().then((docs) => {
       let dic_data = [];
       docs.forEach((doc) => {
-        // 도큐먼트 객체를 확인해보자!
         console.log(doc);
-        // 도큐먼트 데이터 가져오기
         console.log(doc.data());
-        // 도큐먼트 id 가져오기
         console.log(doc.id);
 
         if (doc.exists) {
@@ -68,37 +71,25 @@ export const dicFB = () => {
       });
 
       console.log(dic_data);
-      // 이제 액션 생성 함수한테 우리가 가져온 데이터를 넘겨줘요! 그러면 끝!
       dispatch(loadDic(dic_data));
     });
   };
 };
 
-export const AddDicFB = (data) => {
+export const addDicFB = (add_data) => {
   return function (dispatch) {
-    console.log(data);
-    // 생성할 데이터를 미리 만들게요!
-    let dic_data = {
-      textDic: "whereas",
-      textExplain: "~한 사실이 있으므로",
-      textExam:
-        "Some of the studies show positive results, whereas others do not.",
-    };
+    console.log(add_data);
+    let dic_data = add_data;
 
-    // add()에 데이터를 넘겨줍시다!
     dic_db
-      .add(dic_data)
+      .add(add_data)
       .then((docRef) => {
-        // id를 추가한다!
         dic_data = { ...dic_data, id: docRef.id };
-
         console.log(dic_data);
 
-        // 성공했을 때는? 액션 디스패치!
         dispatch(createDic(dic_data));
       })
       .catch((err) => {
-        // 여긴 에러가 났을 때 들어오는 구간입니다!
         console.log(err);
         window.alert("오류가 났네요! 나중에 다시 시도해주세요!");
       });
@@ -110,13 +101,17 @@ export default function dic(state = initialState, action = {}) {
   switch (action.type) {
     case "dic/LOAD":
       if (action.list.length > 0) {
-        return { list: action.list };
+        return { list: action.list, is_loaded: true };
       }
       return state;
 
     case "dic/CREATE":
       const new_dic_list = [...state.list, action.create];
       return { ...state, list: new_dic_list };
+
+    case "dict/ISLOADED": {
+      return { ...state, is_loaded: action.loaded };
+    }
 
     // case "bucket/DELETE":
     //   const del_list = state.list.filter((element, index) => {

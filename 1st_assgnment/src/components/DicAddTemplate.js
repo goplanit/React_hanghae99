@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { createDic } from "../store/module/DicContext";
+import { addDicFB } from "../store/module/DicContext";
 
 const DicAddTemplate = (props) => {
   const dispatch = useDispatch();
@@ -12,15 +12,13 @@ const DicAddTemplate = (props) => {
 
   const addWord = () => {
     const word = {
-      id: 4, // id는 임시로 아무거나 넣어요
-      textDic: word_ref.current.value, // input에서 text값에 접근하려면 ~~.value로 접근해요. (word_ref.current가 input이에요.)
+      id: 4,
+      textDic: word_ref.current.value,
       textExplain: desc_ref.current.value,
       textExam: example_ref.current.value,
     };
     console.log(word);
-    // 리덕스에 가짜 데이터를 넣어볼게요!
-    dispatch(createDic(word));
-    // 데이터를 넣고 나면 목록 페이지로 이동합시다.
+    dispatch(addDicFB(word));
     props.history.replace("/");
   };
 
@@ -73,8 +71,7 @@ const Font = styled.p`
 `;
 
 const Text = styled.input`
-  width: 100vh;
-  max-width: 440px;
+  width: 100%;
   padding: 5px;
   font-size: 21px;
   border-radius: 4px;
@@ -85,11 +82,12 @@ const Text = styled.input`
 const AddBtn = styled.button`
   width: 100vh;
   max-width: 50vh;
-  margin: 0 auto 10px;
+  margin: 0 auto 20px;
   color: #fff;
-  font-size: 25px;
-  border: 1px solid black;
-  background-color: blue;
+  font-size: 22px;
+  border: 1px solid;
+  border-radius: 8px;
+  background-color: #80deea;
 `;
 
 export default DicAddTemplate;
