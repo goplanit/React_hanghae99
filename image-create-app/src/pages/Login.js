@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Grid, Input, Text } from "../elements/Index";
 import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
 import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../redux/modules/User_module";
 import { emailCheck } from "../shared/EmailCheck";
 
 const Login = (props) => {
@@ -12,8 +12,6 @@ const Login = (props) => {
   const [pwd, setPwd] = React.useState("");
 
   const login = () => {
-    console.log(id);
-
     if (id === "" || pwd === "") {
       window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요!");
       return;
@@ -26,14 +24,6 @@ const Login = (props) => {
 
     dispatch(userActions.loginFB(id, pwd));
   };
-
-  // const changeId = (e) => {
-  //   setId(e.target.value);
-  // };
-
-  // const changePwd = (e) => {
-  //   setPwd(e.target.value);
-  // };
 
   return (
     <React.Fragment>
@@ -60,6 +50,9 @@ const Login = (props) => {
             _onChange={(e) => {
               setPwd(e.target.value);
             }}
+            value={pwd}
+            is_submit
+            onSubmit={login}
           />
         </Grid>
 

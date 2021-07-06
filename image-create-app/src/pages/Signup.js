@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Text, Input, Button } from "../elements/Index";
 
 import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../redux/modules/User_module";
 import { emailCheck } from "../shared/EmailCheck";
 
 const Signup = (props) => {
